@@ -1,12 +1,13 @@
-// src/components/ImageUploadForm.js
+
 import React, { useState } from 'react';
 import { storage, db } from '../firebase-config';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { collection, addDoc } from 'firebase/firestore';
 
-const ImageUploadForm = () => {
+const Upload = () => {
   const [images, setImages] = useState([]);
   const [description, setDescription] = useState('Aventura');
+  const [error, setError] = useState('');
 
   const handleImageChange = (e) => {
     if (e.target.files) {
@@ -20,6 +21,12 @@ const ImageUploadForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (images.length === 0) {
+      setError('Por favor, selecciona al menos una imagen.');
+      return;
+    }
+    setError(''); // Resetear el error
+
     const imagePromises = images.map((image) => {
       const storageRef = ref(storage, `images/${image.name}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
@@ -47,11 +54,13 @@ const ImageUploadForm = () => {
       setImages([]);
     } catch (error) {
       console.error("Error subiendo imágenes: ", error);
+      setError('Error al subir las imágenes. Inténtalo de nuevo.');
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {error && <div className="alert alert-danger">{error}</div>}
       <div className="form-group">
         <label htmlFor="description">Descripción</label>
         <select id="description" value={description} onChange={handleDescriptionChange} className="form-control">
@@ -68,4 +77,4 @@ const ImageUploadForm = () => {
   );
 };
 
-export default ImageUploadForm;
+export default Upload;
