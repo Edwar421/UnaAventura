@@ -1,4 +1,3 @@
-/* Login.css */
 body {
     font-family: 'Roboto', sans-serif;
   }
@@ -11,8 +10,9 @@ body {
   }
   
   .login-container h2 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem; /* Más espacio debajo del encabezado */
     font-weight: 700;
+    text-align: center; /* Centrar el encabezado */
   }
   
   .form-group label {
@@ -27,6 +27,13 @@ body {
     background-color: #007bff;
     border: none;
     font-weight: 600;
+    width: 100%; /* Asegurarse de que el botón sea del ancho completo */
+    margin: 10px 0; /* Añadir margen para separar los botones */
+  }
+  
+  .btn-info {
+    width: 100%; /* Asegurarse de que el botón sea del ancho completo */
+    margin: 10px 0; /* Añadir margen para separar los botones */
   }
   
   .btn-link {
@@ -34,6 +41,10 @@ body {
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
+    display: inline-block; /* Permitir el uso de margen */
+    width: 100%; /* Asegurarse de que el botón sea del ancho completo */
+    margin: 10px 0; /* Añadir margen para separar los botones */
+    text-align: center; /* Centrar el texto dentro del botón */
   }
   
   .btn-link:hover {

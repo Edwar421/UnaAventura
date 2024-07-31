@@ -27,7 +27,7 @@ function App() {
     <div>
       <Header />
       <div className="container">
-      {user ? <Home correoUser={user.email} /> : <Login />} 
+        {user ? <Home correoUser={user.email} /> : <Login />} 
       </div>
       <Footer/>
     </div>
