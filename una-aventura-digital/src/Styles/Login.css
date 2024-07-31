@@ -1,0 +1,54 @@
+/* Login.css */
+body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .login-container {
+    background-color: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .login-container h2 {
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+  }
+  
+  .form-group label {
+    font-weight: 600;
+  }
+  
+  .form-control {
+    border-radius: 5px;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    font-weight: 600;
+  }
+  
+  .btn-link {
+    color: #007bff;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+  
+  .img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .img-container img {
+    max-width: 100%;
+    border-radius: 10px;
+  }
+  
