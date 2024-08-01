@@ -1,7 +1,49 @@
+/* Home.css */
+
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50vh;
+  background: url('../../public/Imagenes/Playa.jpg') no-repeat center center/cover;
+  color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  z-index: 1000;
+  transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+}
+
+.banner.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .publications {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  
+  margin-top: 50vh; /* Ajustar para que las publicaciones no se oculten tras el banner */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Header.css */
+
+.navbar {
+  margin-bottom: 20px;
+  background-color: rgba(198, 228, 236, 0.9); /* Fondo transparente */
+  z-index: 1100; /* Asegurarse de que esté por encima del banner */
+  position: fixed;
+  width: 100%;
+  top: 0;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.navbar-scrolled {
+  background-color: #ffffff; /* Fondo blanco */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra en la parte inferior */
+}
+
+/* Resto de los estilos */

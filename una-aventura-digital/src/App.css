@@ -5,11 +5,16 @@ body {
   min-height: 100vh;
   margin: 0;
 }
+/* Remove the closing curly brace */
 
 .App {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
 }
 
 .container {

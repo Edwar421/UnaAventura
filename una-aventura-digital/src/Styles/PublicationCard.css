@@ -9,9 +9,10 @@
   align-items: center;
   width: 90%;
   max-width: 350px;
-  min-height: 500px; /* Aumentamos la altura mínima */
+  height: 600px; /* Altura fija para evitar que la tarjeta crezca más allá de un límite */
   box-sizing: border-box;
   position: relative;
+  overflow: hidden; /* Asegura que el contenido no desborde el contenedor */
   transition: box-shadow 0.3s ease-in-out; /* Animación para la sombra */
 }
 
@@ -58,6 +59,7 @@
   display: flex;
   flex-direction: column;
   flex: 1; /* Permite que esta sección crezca según sea necesario */
+  overflow: hidden; /* Asegura que el contenido adicional se oculte si es necesario */
 }
 
 .publication-text h3 {
@@ -88,10 +90,11 @@
   align-items: center;
   width: 100%;
   padding: 10px 0; /* Espacio adicional para separar de los comentarios */
-  position: sticky;
-  bottom: 0;
   background: #fff; /* Fondo blanco para el área de "likes" y comentarios */
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra para diferenciar del resto del contenido */
+  position: absolute; /* Asegura que se quede en la parte inferior */
+  bottom: 0;
+  left: 0;
 }
 
 .likes {
@@ -149,10 +152,4 @@
     transform: translate(-50%, -50%) scale(2);
     opacity: 0;
   }
-}
-
-.publications {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
 }

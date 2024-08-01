@@ -1,48 +1,82 @@
+/* Upload.css */
+
+/* Estilo del contenedor de la página */
+.upload-page {
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Banner que se desplaza con el contenido */
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50vh;
+  background: url('../../public/Imagenes/Amazonas.jpg ') no-repeat center center/cover;
+  color: rgb(255, 255, 255);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  z-index: 1000;
+  transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+}
+
+.banner.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+/* El banner se oculta cuando se desplaza hacia abajo */
+.content {
+  margin-top: 50vh; /* Ajusta esto según la altura del banner */
+  padding: 1rem; /* Añade padding para el contenido */
+}
+
+/* Header fijo en la parte superior */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(198, 228, 236, 0.9); /* Fondo transparente */
+  z-index: 1100;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.navbar-scrolled {
+  background-color: #ffffff; /* Fondo blanco cuando el banner se oculta */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra en la parte inferior */
+}
+
+/* Estilo del formulario de carga */
 .upload-container {
-    max-width: 1500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-  }
-  
-  .upload-form .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .image-description-group {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .image-description-group img {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-    margin-left: 10px;
-  }
-  
-  .static-image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  
-  .static-image {
-    max-width: 100%;
-    max-height: 800px; /* Increase the height */
-  }
-  
-  .upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .upload-form {
-    width: 100%;
-    max-width: 500px;
-  }
-  
+  padding: 2rem;
+}
+
+.upload-form {
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.image-description-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.selected-file-image {
+  width: 100px;
+  height: auto;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.static-image-container {
+  text-align: center;
+}
+
+.static-image {
+  max-width: 100%;
+  height: auto;
+}

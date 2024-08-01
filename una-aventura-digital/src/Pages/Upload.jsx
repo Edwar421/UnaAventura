@@ -16,6 +16,7 @@ const Upload = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [username, setUsername] = useState('Usuario desconocido');
   const navigate = useNavigate();
+  const [showBanner, setShowBanner] = useState(true);
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -33,6 +34,30 @@ const Upload = () => {
     };
 
     fetchUsername();
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const banner = document.querySelector('.banner');
+      const header = document.querySelector('.navbar');
+      const bannerHeight = banner?.offsetHeight || 0;
+      const scrollY = window.scrollY;
+
+      if (scrollY > bannerHeight) {
+        setShowBanner(false);
+        header.classList.add('navbar-scrolled');
+      } else {
+        setShowBanner(true);
+        header.classList.remove('navbar-scrolled');
+      }
+
+      if (banner) {
+        banner.style.transform = `translateY(${scrollY * -1}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleFileChange = (e) => {
@@ -117,77 +142,88 @@ const Upload = () => {
   };
 
   return (
-    <div className="upload-container">
-      <div className="row">
-        <div className="col-md-6">
-          <form onSubmit={handleSubmit} className="upload-form">
-            <h2>Subir Imágenes</h2>
-            <div className="form-group">
-              <label htmlFor="imageUpload">Seleccionar Imágenes</label>
-              <input
-                type="file"
-                id="imageUpload"
-                multiple
-                onChange={handleFileChange}
-                className="form-control"
-                accept="image/*"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">Descripción del Viaje</label>
-              <textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                className="form-control"
-                rows="4"
-                placeholder="Ingrese una descripción general del viaje"
-              />
-            </div>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={uploading}
-            >
-              {uploading ? 'Subiendo...' : 'Subir Imágenes'}
-            </button>
-            {uploading && (
-              <div className="progress mt-2">
-                <div
-                  className="progress-bar"
-                  role="progressbar"
-                  style={{ width: `${uploadProgress}%` }}
-                  aria-valuenow={uploadProgress}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
-                  {Math.round(uploadProgress)}%
-                </div>
-              </div>
-            )}
-            {error && <div className="alert alert-danger mt-2">{error}</div>}
-            {successMessage && <div className="alert alert-success mt-2">{successMessage}</div>}
-          </form>
-          <div className="mt-3">
-            {selectedFiles.length > 0 && (
-              <div>
-                <h4>Archivos Seleccionados:</h4>
-                <div className="image-description-group">
-                  {selectedFiles.map((fileURL, index) => (
-                    <img key={index} src={fileURL} alt={`Selected File ${index}`} className="selected-file-image" />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+    <div className="upload-page">
+      <div className={`banner ${showBanner ? '' : 'hidden'}`}>
+        <div className="banner-content">
+          <h1>Comparte tu Aventura</h1>
+          <h4>Comparte tus mejores momentos de viaje con otros aventureros. ¡Sube tus fotos ahora! y mira que opinan los demás.
+          </h4>
         </div>
-        <div className="col-md-6">
-          <div className="static-image-container">
-            <img
-              src="/Imagenes/Collage.jpg"
-              alt="Viaje Fotográfico"
-              className="static-image"
-            />
+      </div>
+      <div className="content">
+        <div className="upload-container">
+          <div className="row">
+            <div className="col-md-6">
+              <form onSubmit={handleSubmit} className="upload-form">
+                <h2>Subir Imágenes</h2>
+                <div className="form-group">
+                  <label htmlFor="imageUpload">Seleccionar Imágenes</label>
+                  <input
+                    type="file"
+                    id="imageUpload"
+                    multiple
+                    onChange={handleFileChange}
+                    className="form-control"
+                    accept="image/*"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="description">Descripción del Viaje</label>
+                  <textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="form-control"
+                    rows="4"
+                    placeholder="Ingrese una descripción general del viaje"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={uploading}
+                >
+                  {uploading ? 'Subiendo...' : 'Subir Imágenes'}
+                </button>
+                {uploading && (
+                  <div className="progress mt-2">
+                    <div
+                      className="progress-bar"
+                      role="progressbar"
+                      style={{ width: `${uploadProgress}%` }}
+                      aria-valuenow={uploadProgress}
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                    >
+                      {Math.round(uploadProgress)}%
+                    </div>
+                  </div>
+                )}
+                {error && <div className="alert alert-danger mt-2">{error}</div>}
+                {successMessage && <div className="alert alert-success mt-2">{successMessage}</div>}
+              </form>
+              <div className="mt-3">
+                {selectedFiles.length > 0 && (
+                  <div>
+                    <h4>Archivos Seleccionados:</h4>
+                    <div className="image-description-group">
+                      {selectedFiles.map((fileURL, index) => (
+                        <img key={index} src={fileURL} alt={`Selected File ${index}`} className="selected-file-image" />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="static-image-container">
+                <img
+                  src="/Imagenes/Collage.jpg"
+                  alt="Viaje Fotográfico"
+                  className="static-image"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>

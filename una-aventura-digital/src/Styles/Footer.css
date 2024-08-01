@@ -1,6 +1,10 @@
 .footer {
     background-color: rgb(12, 53, 106);
     color: #dce8f2;
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
   }
   
   .footer a {
