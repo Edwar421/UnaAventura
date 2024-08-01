@@ -3,6 +3,7 @@ body {
   font-optical-sizing: auto;
   font-weight: bold;
   font-style: normal;
+  margin-top: 100px
   }
   
   .login-container {
@@ -40,7 +41,7 @@ body {
   }
   
   .btn-link {
-    color: rgb(64, 248, 255);
+    color: rgb(64, 128, 255);
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;

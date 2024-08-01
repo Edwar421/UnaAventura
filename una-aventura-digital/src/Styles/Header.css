@@ -1,30 +1,14 @@
-/* Estilos generales para la barra de navegación */
-/*.navbar {
-  margin-bottom: 20px;
-  background-color: #C6E4EC; /* Fondo blanco */
-/*}
-
-.navbar {
-  margin-bottom: 20px;
-  background-color: #C6E4EC; /* Fondo blanco */
- /* z-index: 500; /* Asegurarse de que el banner esté por encima */
-  /*position: relative;
-}*/
 /* Header.css */
 
 .navbar {
   margin-bottom: 20px;
-  background-color: rgba(0,0,0,0); /* Fondo transparente */
+  background-color: rgba(235, 227, 227, 0); /* Fondo transparente */
   z-index: 1100; /* Asegurarse de que esté por encima del banner */
   position: fixed;
   width: 100%;
   top: 0;
 }
 
-/* Resto de los estilos */
-
-
-/* Estilos para la marca del navbar */
 .navbar-brand {
   font-family: "Playfair Display", serif;
   font-optical-sizing: auto;
@@ -34,7 +18,6 @@
   color: rgb(12, 53, 106); /* Letras azules */
 }
 
-/* Estilos para los enlaces de navegación */
 .nav-link {
   color: rgb(12, 53, 106); /* Letras azules */
   font-size: 1.2em;
@@ -45,8 +28,7 @@
   font-style: normal;
 }
 
-/* Estilos para el botón de cierre de sesión */
-.btn-outline-light {
+.btn-upload-photo {
   font-family: "Playfair Display", serif;
   font-optical-sizing: auto;
   font-weight: bold;
@@ -56,24 +38,61 @@
   margin-left: 10px;
 }
 
-/* Estilos del botón de colapso (hamburguesa) */
+.user-icon-btn {
+  background: none;
+  border: 2px solid rgb(12, 53, 106); /* Borde azul */
+  border-radius: 50%; /* Bordes redondeados */
+  color: rgb(12, 53, 106); /* Letras azules */
+  font-size: 1.5em;
+  margin-left: 10px;
+  position: relative;
+  width: 40px; /* Ancho fijo */
+  height: 40px; /* Alto fijo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-icon-btn .dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  display: none;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1200;
+}
+
+.user-icon-btn .dropdown-menu.show {
+  display: block;
+}
+
+.user-icon-btn .dropdown-menu a {
+  color: rgb(12, 53, 106);
+  padding: 10px 20px;
+  display: block;
+  text-decoration: none;
+}
+
+.user-icon-btn .dropdown-menu a:hover {
+  background-color: rgba(12, 53, 106, 0.1);
+}
+
 .navbar-toggler {
   border: none;
 }
 
-/* Estilo del contenedor del navbar */
 .container-fluid {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Oculta el menú en vistas normales (desktops) */
 .navbar-collapse {
   display: flex; /* Muestra el menú en vistas de escritorio */
 }
 
-/* Alineación de los elementos del navbar */
 .navbar-nav {
   display: flex;
   align-items: center;
@@ -81,7 +100,6 @@
   width: 100%;
 }
 
-/* Oculta el menú en dispositivos móviles */
 @media (max-width: 767.98px) {
   .navbar-collapse {
     display: none; /* Oculta el menú por defecto en dispositivos móviles */
