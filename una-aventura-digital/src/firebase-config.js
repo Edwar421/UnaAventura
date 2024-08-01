@@ -1,10 +1,8 @@
-// Import the functions you need from the SDKs you need
+// Importa las funciones necesarias de los SDKs
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
-import {v4} from 'uuid';
-
-
+import { getStorage, ref, uploadBytesResumable} from 'firebase/storage';
+import { v4 } from 'uuid';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCDD4B-tANRwIcD4NiBN0qvKZOIoULQgBI",
@@ -16,20 +14,19 @@ const firebaseConfig = {
   measurementId: "G-XC2QTQR0VY"
 };
 
-// Initialize Firebase
+// Inicializa Firebase
 const appFireBase = initializeApp(firebaseConfig);
 
 // Inicializa Firebase Storage y Firestore
 const storage = getStorage(appFireBase);
 const db = getFirestore(appFireBase);
 
-export function UploadFile(file){
-    const storageRef   = ref(storage, v4());
-    uploadBytes(storageRef, file).then((snapshot) => {
-        console.log('Uploaded a blob or file!');
-    }
-  )
+export function UploadFile(file) {
+  const storageRef = ref(storage, `images/${v4()}_${file.name}`);
+  const uploadTask = uploadBytesResumable(storageRef, file);
+
+  return uploadTask;
 }
 
-export {storage, db};
+export { storage, db };
 export default appFireBase;
