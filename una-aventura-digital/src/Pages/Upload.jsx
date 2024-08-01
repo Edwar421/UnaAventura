@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for redirection
-import { db, UploadFile } from '../firebase-config'; // Adjust path as necessary
-import { collection, addDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { /*db,*/ UploadFile } from '../firebase-config';
+//import { collection, addDoc } from 'firebase/firestore';
 import { getDownloadURL } from 'firebase/storage';
 import '../Styles/Upload.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,31 +12,44 @@ const Upload = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState('');
-  const [selectedFiles, setSelectedFiles] = useState([]); // State to store selected files
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
-    setFiles(newFiles);
-    setSelectedFiles(newFiles.map(file => URL.createObjectURL(file))); // Create object URLs for preview
+    const validFiles = newFiles.filter(file => file.type.startsWith('image/'));
+
+    if (validFiles.length === 0) {
+      alert("Por favor, selecciona al menos un archivo de imagen.");
+      return;
+    }
+
+    setFiles(validFiles);
+    setSelectedFiles(validFiles.map(file => URL.createObjectURL(file)));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     if (files.length === 0) {
       alert("Por favor, selecciona al menos un archivo.");
       return;
     }
-
+  
+    if (!description) {
+      setError("La descripción no puede estar vacía.");
+      return;
+    }
+  
     setUploading(true);
     setError('');
     setUploadProgress(0);
-
+  
     try {
       const uploadPromises = files.map((file) => {
         return new Promise((resolve, reject) => {
           const uploadTask = UploadFile(file);
-
+  
           uploadTask.on(
             'state_changed',
             (snapshot) => {
@@ -49,11 +62,17 @@ const Upload = () => {
             async () => {
               try {
                 const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                await addDoc(collection(db, 'uploads'), {
+                console.log("Datos a enviar a Firestore:", {
                   url: downloadURL,
-                  description,
-                  fileName: file.name,
+                  description: description || '',
+                  fileName: file.name || 'Sin nombre',
                 });
+  
+                /*await addDoc(collection(db, 'uploads'), {
+                  url: downloadURL,
+                  description: description || '',
+                  fileName: file.name || 'Sin nombre',
+                });*/
                 resolve();
               } catch (error) {
                 reject(error.message);
@@ -62,15 +81,15 @@ const Upload = () => {
           );
         });
       });
-
+  
       await Promise.all(uploadPromises);
       alert("¡Archivos subidos con éxito!");
-      navigate('/Home'); // Redirect to Home page after successful upload
+      navigate('/Home');
     } catch (error) {
-      setError(`La carga falló: ${error}`);
+      setError(`La carga falló: ${error.message}`);
     } finally {
       setUploading(false);
-      setSelectedFiles([]); // Clear selected files after upload
+      setSelectedFiles([]);
     }
   };
 
@@ -88,6 +107,7 @@ const Upload = () => {
                 multiple
                 onChange={handleFileChange}
                 className="form-control"
+                accept="image/*"
               />
             </div>
             <div className="form-group">
