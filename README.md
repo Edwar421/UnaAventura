@@ -25,7 +25,7 @@ Sigue estos pasos para configurar y ejecutar la aplicación en tu entorno local:
 ### 1. Clona el Repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/captura-y-comparte.git
+git clone https://github.com/Edwar421/UnaAventura.git
 cd captura-y-comparte
 ```
 
