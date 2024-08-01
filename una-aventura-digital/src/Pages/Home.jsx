@@ -1,11 +1,9 @@
-// Publications.tsx
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase-config';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { PublicationCard } from '../Components/PublicationCard.tsx';
 
-
-const Home = () => {
+const Publications = () => {
   const [publications, setPublications] = useState([]);
 
   useEffect(() => {
@@ -27,4 +25,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Publications;
