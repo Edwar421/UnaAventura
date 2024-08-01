@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase-config';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
-import PublicationCard from '../Components/PublicationCard.tsx'; // Asegúrate de que la ruta sea correcta
+import { PublicationCard } from '../Components/PublicationCard.tsx';
+import '../Styles/Home.css';
 
 const Home = () => {
   const [publications, setPublications] = useState([]);
@@ -17,10 +18,13 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="publications">
-      {publications.map(publication => (
-        <PublicationCard key={publication.id} publication={publication} />
-      ))}
+    <div>
+      <h1>Vive Una Aventura Digital</h1>
+      <div className="publications">
+        {publications.map(publication => (
+          <PublicationCard key={publication.id} publication={publication} />
+        ))}
+      </div>
     </div>
   );
 };
