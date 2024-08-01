@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 import { Link, useLocation } from 'react-router-dom';
 import appFireBase from '../firebase-config';
-import '@fortawesome/fontawesome-free/css/all.min.css'; // Asegúrate de que esta línea está presente
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import '../Styles/Header.css';
 
 const auth = getAuth(appFireBase);
@@ -11,8 +11,6 @@ const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const location = useLocation();
   const navbarCollapseRef = useRef(null);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -23,6 +21,7 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
+    // Close the menu when the route changes
     if (navbarCollapseRef.current) {
       const collapse = new window.bootstrap.Collapse(navbarCollapseRef.current, {
         toggle: false,
@@ -30,24 +29,6 @@ const Header = () => {
       collapse.hide();
     }
   }, [location]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownVisible(false);
-      }
-    };
-
-    if (dropdownVisible) {
-      document.addEventListener('mousedown', handleOutsideClick);
-    } else {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, [dropdownVisible]);
 
   const handleLogout = async () => {
     try {
@@ -75,16 +56,9 @@ const Header = () => {
                 <Link className="nav-link" to="/Home">Publicaciones</Link>
               </li>
               <li className="nav-item">
-                <button 
-                  className="user-icon-btn" 
-                  onClick={() => setDropdownVisible(!dropdownVisible)}
-                  ref={dropdownRef}
-                >
-                  <i className="fas fa-user"></i>
+                <button className="btn-logout" onClick={handleLogout}>
+                  <i className="fas fa-sign-out-alt"></i>
                 </button>
-                <div className={`dropdown-menu${dropdownVisible ? ' show' : ''}`}>
-                  <a href="#!" onClick={handleLogout}>Cerrar sesión</a>
-                </div>
               </li>
             </ul>
           )}
