@@ -1,6 +1,6 @@
 // Importa las funciones necesarias de los SDKs
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid'; // Cambiado para mayor claridad
 
@@ -19,7 +19,7 @@ const appFireBase = initializeApp(firebaseConfig);
 
 // Inicializa Firebase Storage y Firestore
 const storage = getStorage(appFireBase);
-const db = getFirestore(appFireBase);
+export const db = getFirestore(appFireBase);
 
 // Función para subir archivos
 export function uploadFile(file) {
@@ -46,5 +46,5 @@ export function uploadFile(file) {
 }
 
 // Exportar los módulos necesarios
-export { storage, db, appFireBase };
+export { storage, appFireBase };
 export default appFireBase;

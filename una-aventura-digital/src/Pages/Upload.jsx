@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { uploadFile, db , appFireBase} from '../firebase-config';
-import { collection, addDoc } from 'firebase/firestore';
+import { storage, db } from '../firebase-config';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import '../Styles/Upload.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { getAuth } from 'firebase/auth';
-
-const auth = getAuth(appFireBase);
 
 const Upload = () => {
   const [files, setFiles] = useState([]);
@@ -49,29 +47,44 @@ const Upload = () => {
 
     try {
       const uploadPromises = files.map((file) => {
-        return uploadFile(file).then(downloadURL => ({
-          url: downloadURL,
-          fileName: file.name
-        }));
+        return new Promise((resolve, reject) => {
+          const storageRef = ref(storage, `images/${file.name}`);
+          const uploadTask = uploadBytesResumable(storageRef, file);
+
+          uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setUploadProgress(progress);
+            },
+            (error) => {
+              reject(error.message);
+            },
+            async () => {
+              try {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve(downloadURL);
+              } catch (error) {
+                reject(error.message);
+              }
+            }
+          );
+        });
       });
 
-      const uploadedFiles = await Promise.all(uploadPromises);
+      const uploadedImageUrls = await Promise.all(uploadPromises);
 
-      // Obtén el nombre del usuario actual
-      const user = auth.currentUser;
-      const username = user ? user.displayName || 'Usuario Anónimo' : 'Usuario Anónimo'
-
-      await addDoc(collection(db, 'publicaciones'), {
-        usuario: username, // Cambia esto según el usuario actual
-        descripcion: description || '',
-        imagenes: uploadedFiles.map(file => file.url),
-        comentarios: []
+      await addDoc(collection(db, 'publications'), {
+        username: "currentUser", // Reemplaza con el nombre de usuario real
+        description: description || '',
+        images: uploadedImageUrls,
+        timestamp: serverTimestamp()
       });
 
       alert("¡Archivos subidos con éxito!");
       navigate('/Home');
     } catch (error) {
-      setError(`La carga falló: ${error.message}`);
+      setError(`La carga falló: ${error}`);
     } finally {
       setUploading(false);
       setSelectedFiles([]);

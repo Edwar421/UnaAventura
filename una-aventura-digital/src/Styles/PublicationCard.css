@@ -1,0 +1,82 @@
+.publication-card {
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  height: 300px; /* Fija la altura de la tarjeta */
+}
+
+.publication-content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+.image-carousel {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.image-carousel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px 0 0 8px; /* Bordes redondeados para la imagen */
+}
+
+.publication-text {
+  width: 40%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.publication-text h3 {
+  margin-bottom: 10px;
+}
+
+.publication-text p {
+  margin-bottom: 20px;
+}
+
+.comments-reactions {
+  margin-top: 10px;
+}
+
+.comment-input {
+  width: calc(100% - 80px);
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.react-button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.react-button:hover {
+  background-color: #0056b3;
+}
+
+.likes {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.heart-icon {
+  font-size: 24px;
+  margin-right: 5px;
+}
