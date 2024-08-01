@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect, useRef } from 'react';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import appFireBase from '../firebase-config';
+import '../Styles/Header.css';
 
 const auth = getAuth(appFireBase);
 
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const location = useLocation();
+  const navbarCollapseRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -17,6 +19,16 @@ const Header = () => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    // Close the menu when the route changes
+    if (navbarCollapseRef.current) {
+      const collapse = new window.bootstrap.Collapse(navbarCollapseRef.current, {
+        toggle: false,
+      });
+      collapse.hide();
+    }
+  }, [location]);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -24,18 +36,18 @@ const Header = () => {
     } catch (error) {
       console.error('Error cerrando sesión:', error);
     }
-  }
+  };
 
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div className="container-fluid">
         <Link className="navbar-brand" to="/">Una Aventura Digital</Link>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse" id="navbarNav" ref={navbarCollapseRef}>
           {isAuthenticated && (
-            <ul className="navbar-nav ml-auto">
+            <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <Link className="nav-link" to="/Home">Publicaciones</Link>
               </li>
@@ -48,10 +60,9 @@ const Header = () => {
             </ul>
           )}
         </div>
-      </nav>
-      <div style={{ marginBottom: '20px' }}></div>
-    </div>
+      </div>
+    </nav>
   );
-}
+};
 
 export default Header;

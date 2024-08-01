@@ -1,14 +1,82 @@
+/* Header.css */
+
+/* Estilos generales para la barra de navegación */
+.navbar {
+  margin-bottom: 20px;
+}
+
+/* Estilos para la marca del navbar */
 .navbar-brand {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.5em;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5em;
+}
+
+/* Estilos para los enlaces de navegación */
+.nav-link {
+  font-size: 1.2em;
+  margin-right: 10px;
+}
+
+/* Estilos para el botón de cierre de sesión */
+.btn-outline-light {
+  margin-left: 10px;
+}
+
+/* Estilos del botón de colapso (hamburguesa) */
+.navbar-toggler {
+  border: none;
+}
+
+/* Estilo del contenedor del navbar */
+.container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Oculta el menú en vistas normales (desktops) */
+.navbar-collapse {
+  display: flex; /* Muestra el menú en vistas de escritorio */
+}
+
+/* Alineación de los elementos del navbar */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+/* Oculta el menú en dispositivos móviles */
+@media (max-width: 767.98px) {
+  .navbar-collapse {
+    display: none; /* Oculta el menú por defecto en dispositivos móviles */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
-  
+
+  .navbar-collapse.show {
+    display: flex; /* Muestra el menú cuando el botón de colapso está activo */
+  }
+
+  .navbar-nav {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
   .nav-link {
-    font-size: 1.2em;
-    margin-right: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+    text-align: center;
   }
-  
-  .btn-outline-light {
-    margin-left: 10px;
+
+  .nav-link:last-child {
+    margin-bottom: 0;
   }
-  
+
+  .navbar-toggler {
+    margin-right: 0;
+  }
+}
