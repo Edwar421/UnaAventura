@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { /*db,*/ UploadFile } from '../firebase-config';
-//import { collection, addDoc } from 'firebase/firestore';
-import { getDownloadURL } from 'firebase/storage';
+import { uploadFile, db , appFireBase} from '../firebase-config';
+import { collection, addDoc } from 'firebase/firestore';
 import '../Styles/Upload.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { getAuth } from 'firebase/auth';
+
+const auth = getAuth(appFireBase);
 
 const Upload = () => {
   const [files, setFiles] = useState([]);
@@ -30,59 +32,42 @@ const Upload = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (files.length === 0) {
       alert("Por favor, selecciona al menos un archivo.");
       return;
     }
-  
+
     if (!description) {
       setError("La descripción no puede estar vacía.");
       return;
     }
-  
+
     setUploading(true);
     setError('');
     setUploadProgress(0);
-  
+
     try {
       const uploadPromises = files.map((file) => {
-        return new Promise((resolve, reject) => {
-          const uploadTask = UploadFile(file);
-  
-          uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              setUploadProgress(progress);
-            },
-            (error) => {
-              reject(error.message);
-            },
-            async () => {
-              try {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                console.log("Datos a enviar a Firestore:", {
-                  url: downloadURL,
-                  description: description || '',
-                  fileName: file.name || 'Sin nombre',
-                });
-  
-                /*await addDoc(collection(db, 'uploads'), {
-                  url: downloadURL,
-                  description: description || '',
-                  fileName: file.name || 'Sin nombre',
-                });*/
-                resolve();
-              } catch (error) {
-                reject(error.message);
-              }
-            }
-          );
-        });
+        return uploadFile(file).then(downloadURL => ({
+          url: downloadURL,
+          fileName: file.name
+        }));
       });
-  
-      await Promise.all(uploadPromises);
+
+      const uploadedFiles = await Promise.all(uploadPromises);
+
+      // Obtén el nombre del usuario actual
+      const user = auth.currentUser;
+      const username = user ? user.displayName || 'Usuario Anónimo' : 'Usuario Anónimo'
+
+      await addDoc(collection(db, 'publicaciones'), {
+        usuario: username, // Cambia esto según el usuario actual
+        descripcion: description || '',
+        imagenes: uploadedFiles.map(file => file.url),
+        comentarios: []
+      });
+
       alert("¡Archivos subidos con éxito!");
       navigate('/Home');
     } catch (error) {

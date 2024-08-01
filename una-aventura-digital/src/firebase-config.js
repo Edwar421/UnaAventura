@@ -1,7 +1,7 @@
 // Importa las funciones necesarias de los SDKs
 import { initializeApp } from "firebase/app";
-import { getFirestore } from 'firebase/firestore';
-import { getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid'; // Cambiado para mayor claridad
 
 const firebaseConfig = {
@@ -22,26 +22,29 @@ const storage = getStorage(appFireBase);
 const db = getFirestore(appFireBase);
 
 // Función para subir archivos
-export function UploadFile(file) {
+export function uploadFile(file) {
   const storageRef = ref(storage, `images/${uuidv4()}_${file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, file);
 
-  uploadTask.on('state_changed', 
-    (snapshot) => {
-      // Puedes manejar el progreso aquí si lo deseas
-    }, 
-    (error) => {
-      console.error("Error al subir el archivo:", error);
-      throw error; // Lanza el error para manejarlo en el lugar donde se llama a esta función
-    }, 
-    () => {
-      // Manejo de la finalización de la carga si es necesario
-    }
-  );
-
-  return uploadTask;
+  return new Promise((resolve, reject) => {
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        // Puedes manejar el progreso aquí si lo deseas
+      },
+      (error) => {
+        console.error("Error al subir el archivo:", error);
+        reject(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          resolve(downloadURL);
+        });
+      }
+    );
+  });
 }
 
 // Exportar los módulos necesarios
-export { storage, db };
+export { storage, db, appFireBase };
 export default appFireBase;

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase-config';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
-import { PublicationCard } from '../Components/PublicationCard.tsx';
+import PublicationCard from '../Components/PublicationCard.tsx'; // Asegúrate de que la ruta sea correcta
 
-const Publications = () => {
+const Home = () => {
   const [publications, setPublications] = useState([]);
 
   useEffect(() => {
@@ -25,4 +25,4 @@ const Publications = () => {
   );
 };
 
-export default Publications;
+export default Home;
