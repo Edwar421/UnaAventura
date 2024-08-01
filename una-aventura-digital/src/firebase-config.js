@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import {v4} from 'uuid';
 
 
 
@@ -22,6 +23,13 @@ const appFireBase = initializeApp(firebaseConfig);
 const storage = getStorage(appFireBase);
 const db = getFirestore(appFireBase);
 
+export function UploadFile(file){
+    const storageRef   = ref(storage, v4());
+    uploadBytes(storageRef, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+    }
+  )
+}
 
 export {storage, db};
 export default appFireBase;
