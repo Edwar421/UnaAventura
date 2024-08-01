@@ -47,6 +47,7 @@ npm install
 npm install firebase
 npm i bootstrap@5.3.3
 npm i bootstrap-icons
+npm install @fortawesome/fontawesome-free
 npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core @fortawesome/free-regular-svg-icons
 ```
 4. Ejecuta la Aplicación
