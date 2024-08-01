@@ -26,7 +26,7 @@ Sigue estos pasos para configurar y ejecutar la aplicación en tu entorno local:
 
 ```bash
 git clone https://github.com/Edwar421/UnaAventura.git
-cd captura-y-comparte
+cd una-aventura-digital
 ```
 
 ## Instalación y Configuración
@@ -46,6 +46,7 @@ Una vez que Node.js esté instalado, instala las dependencias del proyecto utili
 npm install
 npm install firebase
 npm i bootstrap@5.3.3
+npm i bootstrap-icons
 npm install @fortawesome/react-fontawesome @fortawesome/free-solid-svg-icons @fortawesome/fontawesome-svg-core @fortawesome/free-regular-svg-icons
 ```
 4. Ejecuta la Aplicación
