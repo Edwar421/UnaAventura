@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { storage, db } from '../firebase-config';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import '../Styles/Upload.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Upload = () => {
   const [files, setFiles] = useState([]);
@@ -12,15 +12,35 @@ const Upload = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [username, setUsername] = useState('Usuario desconocido');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (user) {
+        const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data();
+          setUsername(userData.name || 'Usuario desconocido');
+        }
+      }
+    };
+
+    fetchUsername();
+  }, []);
 
   const handleFileChange = (e) => {
     const newFiles = Array.from(e.target.files);
     const validFiles = newFiles.filter(file => file.type.startsWith('image/'));
 
     if (validFiles.length === 0) {
-      alert("Por favor, selecciona al menos un archivo de imagen.");
+      setError("Por favor, selecciona al menos un archivo de imagen.");
       return;
     }
 
@@ -32,7 +52,7 @@ const Upload = () => {
     e.preventDefault();
 
     if (files.length === 0) {
-      alert("Por favor, selecciona al menos un archivo.");
+      setError("Por favor, selecciona al menos un archivo.");
       return;
     }
 
@@ -75,14 +95,19 @@ const Upload = () => {
       const uploadedImageUrls = await Promise.all(uploadPromises);
 
       await addDoc(collection(db, 'publications'), {
-        username: "currentUser", // Reemplaza con el nombre de usuario real
+        username: username,
         description: description || '',
         images: uploadedImageUrls,
+        likes: 0,
+        comments: [],
         timestamp: serverTimestamp()
       });
 
-      alert("¡Archivos subidos con éxito!");
-      navigate('/Home');
+      // Actualiza el estado de éxito y redirige después de un tiempo
+      setSuccessMessage("¡Archivos subidos con éxito!");
+      setTimeout(() => {
+        navigate('/Home');
+      }, 2000);
     } catch (error) {
       setError(`La carga falló: ${error}`);
     } finally {
@@ -141,6 +166,7 @@ const Upload = () => {
               </div>
             )}
             {error && <div className="alert alert-danger mt-2">{error}</div>}
+            {successMessage && <div className="alert alert-success mt-2">{successMessage}</div>}
           </form>
           <div className="mt-3">
             {selectedFiles.length > 0 && (

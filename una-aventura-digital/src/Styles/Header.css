@@ -1,24 +1,27 @@
-/* Header.css */
-
 /* Estilos generales para la barra de navegación */
 .navbar {
   margin-bottom: 20px;
+  background-color: #ffffff; /* Fondo blanco */
 }
 
 /* Estilos para la marca del navbar */
 .navbar-brand {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.5em;
+  color: rgb(12, 53, 106); /* Letras azules */
 }
 
 /* Estilos para los enlaces de navegación */
 .nav-link {
+  color: rgb(12, 53, 106); /* Letras azules */
   font-size: 1.2em;
   margin-right: 10px;
 }
 
 /* Estilos para el botón de cierre de sesión */
 .btn-outline-light {
+  background-color: blue; /* Fondo azul */
+  color: white; /* Letras blancas */
   margin-left: 10px;
 }
 

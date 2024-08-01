@@ -24,7 +24,7 @@ body {
   }
   
   .btn-primary {
-    background-color: #007bff;
+    background-color: rgb(39, 158, 255);
     border: none;
     font-weight: 600;
     width: 100%; /* Asegurarse de que el botón sea del ancho completo */
@@ -37,7 +37,7 @@ body {
   }
   
   .btn-link {
-    color: #007bff;
+    color: rgb(64, 248, 255);
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;

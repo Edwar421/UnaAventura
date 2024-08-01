@@ -1,6 +1,6 @@
 .publication-card {
-  border: 2px solid #ADD8E6; /* Borde azul claro */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none; /* Quitamos el borde */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más fuerte */
   margin: 20px;
   padding: 20px;
   border-radius: 8px;
@@ -8,10 +8,15 @@
   flex-direction: column;
   align-items: center;
   width: 90%;
-  max-width: 350px; /* Ajuste de ancho máximo */
-  max-height: 500px; /* Ajuste de altura máxima */
+  max-width: 350px;
+  min-height: 500px; /* Aumentamos la altura mínima */
   box-sizing: border-box;
   position: relative;
+  transition: box-shadow 0.3s ease-in-out; /* Animación para la sombra */
+}
+
+.publication-card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Sombra más fuerte al pasar el cursor */
 }
 
 .publication-content {
@@ -23,15 +28,25 @@
 
 .image-carousel {
   width: 100%;
-  height: 300px; /* Ajuste de altura fija */
+  height: 300px; /* Fijamos la altura del contenedor de la imagen */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Asegura que la imagen no se desborde */
+  position: relative; /* Para manejar el posicionamiento de la imagen */
+}
+
+.image-carousel .image-container {
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .image-carousel img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
 }
@@ -40,6 +55,9 @@
   width: 100%;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Permite que esta sección crezca según sea necesario */
 }
 
 .publication-text h3 {
@@ -51,20 +69,29 @@
 }
 
 .comments-section {
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Espacio debajo de los comentarios */
+  max-height: 150px; /* Altura máxima para el contenedor de comentarios */
+  overflow-y: auto; /* Permite el desplazamiento si hay varios comentarios */
 }
 
 .comment {
   background-color: #f0f0f0;
   border-radius: 20px;
-  padding: 10px;
+  padding: 8px 12px;
   margin-bottom: 10px;
+  font-size: 14px; /* Fuente un poco más pequeña */
 }
 
 .likes-comments {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
+  padding: 10px 0; /* Espacio adicional para separar de los comentarios */
+  position: sticky;
+  bottom: 0;
+  background: #fff; /* Fondo blanco para el área de "likes" y comentarios */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra para diferenciar del resto del contenido */
 }
 
 .likes {
@@ -110,7 +137,7 @@
 }
 
 .like-animation.active {
-  opacity: 1;
+  opacity: 1; 
 }
 
 @keyframes heart-fade {
